@@ -1,5 +1,47 @@
+"""
+Program Name: alien_invasion.py
+Author: Natan Ejigu 
+Purpose: Main driver file for the Alien Invasion game, Track 1
+         (Custom Game Mechanics) - Milestone 1. The ship is
+         positioned at the top of the screen, moves left and right,
+         and fires bullets downward.
+Starter code: Based on the Alien Invasion project from Python Crash
+    Course, 3rd Edition, by Eric Matthes
+Date: July,24 2026
+"""
+
 import sys
 import pygame
 
+class AlienInvasion:
+    """Overall class to manage game assets and behavior."""
+ 
+    def __init__(self):
+        """Initialize the game, and create game resources."""
+        pygame.init()
+        self.clock = pygame.time.Clock()
+ 
+        self.screen = pygame.display.set_mode((1200, 800))
+        pygame.display.set_caption("Alien Invasion - Track 1")
+ 
+        # Set the background color.
+        self.bg_color = (230, 230, 230)
+ 
+    def run_game(self):
+        """Start the main loop for the game."""
+        while True:
+            # Watch for keyboard and mouse events.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+ 
+            # Redraw the screen during each pass through the loop.
+            self.screen.fill(self.bg_color)
+ 
+            # Make the most recently drawn screen visible.
+            pygame.display.flip()
+            self.clock.tick(60)
+
 if __name__ == '__main__':
-    pass
+     ai = AlienInvasion()
+     ai.run_game()
