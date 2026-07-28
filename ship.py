@@ -10,41 +10,48 @@ Starter code: Ship class structure based on Python Crash Course. Ship image load
     midbottom to midtop, per Track 1 requirements.
 Date: July 25, 2026
 """
-
+from pathlib import Path
+ 
 import pygame
-
-
+ 
+ 
 class Ship:
     """A class to manage the ship."""
-
+ 
     def __init__(self, ai_game):
         """Initialize the ship and set its starting position."""
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
-
-        # Build a simple placeholder ship image: a downward-pointing triangle it
-        # can be swapped for a real image later using pathlib, e.g.:
-        # self.image = pygame.image.load(Path('images/ship.bmp'))
-        self.width = 40
-        self.height = 30
-        self.image = pygame.Surface(
-            (self.width, self.height), pygame.SRCALPHA)
-        pygame.draw.polygon(
-            self.image,
-            (60, 60, 60),
-            [(0, 0), (self.width, 0), (self.width // 2, self.height)],
-        )
+ 
+        # Load the ship image using pathlib, so the file path works
+        # correctly on both Windows and macOS. The image was rotated
+        # 180 degrees so its nose points down, since the ship fires
+        # downward from the top of the screen.
+        image_path = Path(__file__).parent / 'Assets' / 'images' / 'ship21.png'
+        original_image = pygame.image.load(image_path).convert_alpha()
+ 
+        # Scale the image down to a game-appropriate size (~80px
+        # wide), preserving its original aspect ratio.
+        target_width = 80
+        scale_factor = target_width / original_image.get_width()
+        target_height = int(original_image.get_height() * scale_factor)
+        self.image = pygame.transform.smoothscale(
+            original_image, (target_width, target_height))
         self.rect = self.image.get_rect()
-
+ 
         # Start each new ship at the TOP center of the screen.
         self.rect.midtop = self.screen_rect.midtop
-          # rounding on every update.
+ 
+        # Store a float for the ship's exact horizontal position, so
+        # fractional speed values (e.g. 2.5) aren't lost to integer
+        # rounding on every update.
         self.x = float(self.rect.x)
  
         # Movement flags; start with a ship that's not moving.
         self.moving_right = False
         self.moving_left = False
+ 
     def update(self):
         """Update the ship's position based on movement flags,
         without letting it move past the left or right edge of the
@@ -56,7 +63,7 @@ class Ship:
  
         # Update rect object from self.x.
         self.rect.x = self.x
-
+ 
     def blitme(self):
         """Draw the ship at its current location."""
         self.screen.blit(self.image, self.rect)
