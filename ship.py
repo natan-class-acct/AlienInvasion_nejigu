@@ -2,12 +2,17 @@
 Program Name: ship.py
 Author: Natan Ejigu
 Purpose: Manages the player's ship for Track 1 (Custom Game
-         Mechanics). The ship is drawn as a simple placeholder
-         shape and positioned at the TOP center of the screen
-         (instead of the bottom, as in the base book tutorial).
-Starter code: Ship class structure based on Python Crash Course. Ship image loading replaced with
-    a drawn placeholder shape, and starting position changed from
-    midbottom to midtop, per Track 1 requirements.
+         Mechanics). The ship is loaded from a custom image file
+         and positioned at the TOP center of the screen (instead of
+         the bottom, as in the base book tutorial), and can move
+         left and right in response to player input.
+Starter code: Ship class structure based on the Alien Invasion
+    project from Python Crash Course, 3rd Edition, by Eric Matthes
+    (https://ehmatthes.github.io/pcc_3e). Custom ship artwork
+    (ship21.png) supplied by the author and rotated 180 degrees so
+    the nose points downward, matching the ship's firing direction.
+    Starting position changed from midbottom to midtop, per Track 1
+    requirements.
 Date: July 25, 2026
 """
 from pathlib import Path
