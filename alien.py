@@ -1,0 +1,58 @@
+"""
+Program Name: alien.py
+Author: Natan Ejigu
+Purpose: Represents a single alien in the fleet, for Track 1
+         (Custom Game Mechanics). Since the ship is positioned at
+         the top of the screen and fires downward, the fleet is
+         inverted: aliens start near the bottom of the screen and
+         will advance upward toward the ship (rather than starting
+         at the top and moving down, as in the base book tutorial).
+Starter code: Alien class structure based on the Alien Invasion
+    project from Python Crash Coursse, Starting position changed
+    from near the top-left to near the bottom-left of the screen,
+    and alien drawn as a placeholder shape instead of loaded from
+    a file, per Track 1 requirements.
+Date: July 29, 2026
+"""
+
+import pygame
+from pygame.sprite import Sprite
+
+
+class Alien(Sprite):
+    """A class to represent a single alien in the fleet."""
+
+    def __init__(self, ai_game):
+        """Initialize the alien and set its starting position."""
+        super().__init__()
+        self.screen = ai_game.screen
+        self.settings = ai_game.settings
+
+        # Build a simple placeholder alien image: a small
+        # upward-pointing triangle, so it visually "faces" the ship
+        # above it. This can be swapped for a real image later using
+        # pathlib, e.g.:
+        #   image_path = Path(__file__).parent / 'Assets' / 'images' / 'alien.png'
+        #   self.image = pygame.image.load(image_path)
+        self.width = 40
+        self.height = 30
+        self.image = pygame.Surface(
+            (self.width, self.height), pygame.SRCALPHA)
+        pygame.draw.polygon(
+            self.image,
+            (170, 40, 40),
+            [(0, self.height), (self.width, self.height),
+             (self.width // 2, 0)],
+        )
+        self.rect = self.image.get_rect()
+
+        # Start each new alien near the BOTTOM-left of the screen.
+        # (Track 1 change: the base tutorial places aliens near the
+        # top-left, since its ship starts at the bottom and fires
+        # up. Here, the fleet is flipped to match the inverted ship
+        # orientation.)
+        self.rect.x = self.rect.width
+        self.rect.y = self.screen.get_rect().height - 2 * self.rect.height
+
+        # Store the alien's exact horizontal position.
+        self.x = float(self.rect.x)
