@@ -27,10 +27,4 @@ dist/
 # MacOS
 .DS_Store
 
-# Pygame assets (optional)
-*.wav
-*.mp3
-*.ogg
-*.png
-*.jpg
-*.jpeg
+requirements.txt
