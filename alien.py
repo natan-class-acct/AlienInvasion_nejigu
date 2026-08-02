@@ -33,14 +33,10 @@ class Alien(Sprite):
         # Load the alien image using pathlib, so the file path
         # works correctly on both Windows and macOS.
         image_path = Path(__file__).parent / 'Assets' / 'images' / 'alien.bmp'
-        self.image = pygame.image.load(image_path)
+        original_image = pygame.image.load(image_path)
+        self.image = pygame.transform.rotate(original_image, 180)
         self.rect = self.image.get_rect()
  
-        # Start each new alien near the BOTTOM-left of the screen.
-        # (Track 1 change: the base tutorial places aliens near the
-        # top-left, since its ship starts at the bottom and fires
-        # up. Here, the fleet is flipped to match the inverted ship
-        # orientation.)
         self.rect.x = self.rect.width
         self.rect.y = self.screen.get_rect().height - 2 * self.rect.height
  
