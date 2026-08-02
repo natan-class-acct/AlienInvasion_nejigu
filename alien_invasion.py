@@ -92,20 +92,33 @@ class AlienInvasion:
     def _create_fleet(self):
         """Create the fleet of aliens."""
         # Create an alien and keep adding aliens until there's no
-     # room left. Spacing between aliens is one alien width.
+        # room left. Spacing between aliens is one alien width.
         alien = Alien(self)
-        alien_width = alien.rect.width
-        current_x = alien_width
-        while current_x < (self.settings.screen_width - 2 * alien_width):
-            self._create_alien(current_x)
-            current_x += 2 * alien_width
+        alien_width, alien_height = alien.rect.size
 
-    def _create_alien(self, x_position):
-        """Create an alien and place it in the row."""
+        current_x = alien_width
+
+        # Start the first row near the BOTTOM of the screen and build rows upward from there. 
+
+        current_y = self.settings.screen_height - 2 * alien_height
+        while current_y > 3 * alien_height:
+            while current_x < (self.settings.screen_width - 2 * alien_width):
+                self._create_alien(current_x, current_y)
+                current_x += 2 * alien_width
+ 
+            # Finished a row; reset x value, and decrement y value
+            # so the next row is placed further UP the screen.
+            current_x = alien_width
+            current_y -= 2 * alien_height
+
+    def _create_alien(self, x_position, y_position):
+        """Create an alien and place it in the fleet."""
         new_alien = Alien(self)
         new_alien.x = x_position
         new_alien.rect.x = x_position
+        new_alien.rect.y = y_position
         self.aliens.add(new_alien)
+
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         self.screen.fill(self.settings.bg_color)
