@@ -7,7 +7,7 @@ Purpose: Defines the Button class used to create a Play button for
          the screen.
 Starter code: Button class based on the Alien Invasion project from
     Python Crash Course, 3rd Edition, by Eric Matthes
-Date: July 30, 2026
+Date: August 5, 2026
 """
 
 import pygame.font
