@@ -9,6 +9,7 @@ Starter code: Scoreboard class based on the Alien Invasion project
 Date: August 7, 2026
 """
 
+import pygame
 import pygame.font
 from pygame.sprite import Group
  
@@ -58,7 +59,7 @@ class Scoreboard:
         # Center the high score at the top of the screen.
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
-        self.high_score_rect.top = self.score_rect.top
+        self.high_score_rect.top = self.score_rect.top + 80
  
     def prep_level(self):
         """Turn the level into a rendered image."""
@@ -72,11 +73,19 @@ class Scoreboard:
         self.level_rect.top = self.score_rect.bottom + 10
  
     def prep_ships(self):
-        """Show how many ships are left."""
+        """Show how many ships are left as small icons in the
+        top-left corner of the screen."""
         self.ships = Group()
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_game)
-            ship.rect.x = 10 + ship_number * ship.rect.width
+            # Scale the icon down to 40px wide for the HUD display.
+            icon_width = 40
+            scale_factor = icon_width / ship.image.get_width()
+            icon_height = int(ship.image.get_height() * scale_factor)
+            ship.image = pygame.transform.smoothscale(
+                ship.image, (icon_width, icon_height))
+            ship.rect = ship.image.get_rect()
+            ship.rect.x = 10 + ship_number * (icon_width + 5)
             ship.rect.y = 10
             self.ships.add(ship)
  
