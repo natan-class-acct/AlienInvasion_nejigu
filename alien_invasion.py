@@ -14,7 +14,6 @@ import sys
 from time import sleep
 import pygame
 
-import alien
 from settings import Settings
 from ship import Ship
 from bullet import Bullet 
@@ -85,7 +84,6 @@ class AlienInvasion:
             self.sb.prep_score()
             self.sb.prep_level()
             self.sb.prep_ships()
-            self.sb.check_high_score()
             self.game_active = True
  
             # Get rid of any remaining bullets and aliens.
@@ -134,16 +132,19 @@ class AlienInvasion:
         # Check for any bullets that have hit aliens and if that is the case,  get rid of the bullet and the alien.
         self._check_bullet_alien_collisions()
     def _check_bullet_alien_collisions(self):
-        """Respond to bullet-alien collisionsand and remove any bullets and aliens that have collided."""
+        """Respond to bullet-alien collisions and remove any bullets
+        and aliens that have collided."""
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
+ 
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
  
-             # Destroy existing bullets and create new fleet.
+        if not self.aliens:
+            # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
@@ -167,6 +168,7 @@ class AlienInvasion:
         """Respond to the ship being hit by an alien."""
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
             self.bullets.empty()
             self.aliens.empty()
             self._create_fleet()
